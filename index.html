@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Finanzly - Cargando...</title>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        import { SUPABASE_URL, SUPABASE_ANON_KEY } from './js/config.js';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = 'auth.html';
+            }
+        }
+        checkSession();
+    </script>
+</head>
+<body style="background-color: #0f172a; display: flex; align-items: center; justify-content: center; height: 100vh; color: white; font-family: sans-serif;">
+    <p>Cargando Finanzly...</p>
+</body>
+</html>
