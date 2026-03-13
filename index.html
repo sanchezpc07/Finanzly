@@ -10,11 +10,19 @@
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.location.href = 'dashboard.html';
-            } else {
-                window.location.href = 'auth.html';
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                
+                // Usar rutas relativas explícitas para GitHub Pages
+                if (session) {
+                    window.location.href = './dashboard.html';
+                } else {
+                    window.location.href = './auth.html';
+                }
+            } catch (err) {
+                console.error('Error de sesión:', err);
+                window.location.href = './auth.html';
             }
         }
         checkSession();
